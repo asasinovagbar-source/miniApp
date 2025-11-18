@@ -1,0 +1,115 @@
+---
+import '../styles/global.scss';
+import Header from '../components/Header.astro';
+import Navigation from '../components/Navigation.astro';
+import CategoryTabs from '../components/CategoryTabs.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  activeTab?: 'home' | 'tasks' | 'settings';
+  activeCategory?: 'casino' | 'bets' | 'poker';
+}
+
+const { 
+  title, 
+  description = 'ДЕПХАБ - агрегатор лучших онлайн казино и ставок',
+  activeTab = 'home',
+  activeCategory
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app">
+      <Header />
+      {activeCategory && <CategoryTabs activeCategory={activeCategory} />}
+      <div id="page-content" class="page-container">
+        <slot />
+      </div>
+      <Navigation activeTab={activeTab} />
+    </div>
+
+    <script>
+      const pageContainer = document.getElementById('page-content');
+      if (!pageContainer) throw new Error('Page container not found');
+
+      function animatePageExit(callback: () => void) {
+        if (!pageContainer) return;
+        
+        pageContainer.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+        pageContainer.style.transform = 'translateX(-100%)';
+        pageContainer.style.opacity = '0';
+        
+        setTimeout(() => {
+          callback();
+        }, 300);
+      }
+
+      function animatePageEnter() {
+        if (!pageContainer) return;
+        
+        pageContainer.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+        pageContainer.style.transform = 'translateX(100%)';
+        pageContainer.style.opacity = '0';
+        
+        requestAnimationFrame(() => {
+          if (pageContainer) {
+            pageContainer.style.transform = 'translateX(0)';
+            pageContainer.style.opacity = '1';
+          }
+        });
+      }
+
+      const navLinks = document.querySelectorAll<HTMLAnchorElement>('.navigation .nav-item');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (!href || href === window.location.pathname) {
+            e.preventDefault();
+            return;
+          }
+          
+          e.preventDefault();
+          
+          sessionStorage.setItem('pageTransition', 'true');
+          animatePageExit(() => {
+            window.location.href = href;
+          });
+        });
+      });
+
+      if (pageContainer) {
+        const isTransition = sessionStorage.getItem('pageTransition');
+        if (isTransition) {
+          sessionStorage.removeItem('pageTransition');
+          setTimeout(() => {
+            animatePageEnter();
+          }, 10);
+        } else {
+          pageContainer.style.display = 'block';
+          pageContainer.style.opacity = '1';
+          pageContainer.style.transform = 'translateX(0)';
+        }
+      }
+    </script>
+
+    <style lang="scss">
+      .page-container {
+        width: 100%;
+        will-change: transform, opacity;
+        position: relative;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+    </style>
+  </body>
+</html>
+

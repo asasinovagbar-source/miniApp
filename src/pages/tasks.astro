@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PromoBanner from '../components/PromoBanner.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import TaskCard from '../components/TaskCard.astro';
+import { tasks } from '../data/casinos';
+---
+
+<BaseLayout title="Задания - ДЕПХАБ" activeTab="tasks">
+      <main>
+        <!-- Promo Banners -->
+        <PromoBanner
+          label="Уникально"
+          labelColor="pink"
+          title="Ежедневный бонус"
+          gradient="linear-gradient(135deg, #9c27b0 0%, #e91e63 100%)"
+          image="📱"
+        />
+        
+        <PromoBanner
+          label="Доступно"
+          labelColor="yellow"
+          title="Колесо фортуны"
+          gradient="linear-gradient(135deg, #4caf50 0%, #8bc34a 100%)"
+          image="🎰"
+        />
+        
+        <PromoBanner
+          label="Доступно"
+          labelColor="yellow"
+          title="Розыгрыш призов"
+          gradient="linear-gradient(135deg, #424242 0%, #212121 100%)"
+          image="🎁"
+        />
+
+        <!-- Tasks Section -->
+        <SectionTitle icon="⭐" title="Задания" />
+        
+        <div class="tasks-list">
+          {tasks.map((task) => (
+            <TaskCard
+              title={task.title}
+              reward={task.reward}
+              completed={task.completed}
+            />
+          ))}
+        </div>
+      </main>
+</BaseLayout>
+
+<style lang="scss">
+  main {
+    padding-bottom: $spacing-xl;
+  }
+
+  .tasks-list {
+    padding-bottom: $spacing-lg;
+  }
+</style>
+

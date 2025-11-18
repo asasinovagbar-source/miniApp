@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PromoBanner from '../components/PromoBanner.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import SettingItem from '../components/SettingItem.astro';
+---
+
+<BaseLayout title="Настройки - ДЕПХАБ" activeTab="settings">
+      <main>
+        <!-- Promo Banners -->
+        <PromoBanner
+          label="Бета"
+          labelColor="yellow"
+          title="ИИ функции"
+          gradient="linear-gradient(135deg, #2196f3 0%, #9c27b0 100%)"
+          image="AI"
+        />
+        
+        <PromoBanner
+          label="Уникально"
+          labelColor="red"
+          title="Поделиться приложением"
+          gradient="linear-gradient(135deg, #5d4037 0%, #3e2723 100%)"
+          image="📢"
+        />
+
+        <!-- Settings Section -->
+        <SectionTitle icon="⚙️" title="Настройки" />
+        
+        <div class="settings-list">
+          <SettingItem
+            title="Уведомления"
+            subtitle="Не пропустите выгодные предложения"
+            type="toggle"
+            value={true}
+          />
+          
+          <SettingItem
+            title="Политика конфиденциальности"
+            subtitle="Узнайте, как мы защищаем ваши данные"
+            type="link"
+          />
+          
+          <SettingItem
+            title="Поддержка"
+            subtitle="Свяжитесь с нами"
+            type="link"
+          />
+          
+          <SettingItem
+            title="О приложении"
+            subtitle="Версия 0.2"
+            type="info"
+          />
+        </div>
+      </main>
+</BaseLayout>
+
+<style lang="scss">
+  main {
+    padding-bottom: $spacing-xl;
+  }
+
+  .settings-list {
+    padding-bottom: $spacing-lg;
+  }
+</style>
+

@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PromoSlider from '../components/PromoSlider.astro';
+import CasinoCard from '../components/CasinoCard.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { casinos } from '../data/casinos';
+---
+
+<BaseLayout title="Покер - ДЕПХАБ" activeTab="home" activeCategory="poker">
+      <main>
+        <PromoSlider
+          sliderId="promo-slider-poker"
+          slides={[
+            {
+              imageSrc: '/images/slider_main/1win.avif',
+              title: '1WIN Покер',
+              subtitle: 'Турниры каждый день',
+              buttonText: 'Играть',
+              gradient: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
+            },
+            {
+              imageSrc: '/images/slider_main/1xbet.webp',
+              title: '1XBET Покер',
+              subtitle: 'Бонус до 500%',
+              buttonText: 'Получить бонус',
+              gradient: 'linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%)',
+            },
+            {
+              imageSrc: '/images/slider_main/1xbet_basket.webp',
+              title: '1XBET Покер',
+              subtitle: 'Лучшие турниры',
+              buttonText: 'Участвовать',
+              gradient: 'linear-gradient(135deg, #00bcd4 0%, #0097a7 100%)',
+            },
+          ]}
+        />
+
+        <!-- Top Poker Rooms -->
+        <SectionTitle icon="🏆" title="ТОП-10 Покерных-комнат" />
+        <div class="casinos-scroll">
+          {casinos.map((casino) => (
+            <CasinoCard
+              rank={casino.rank}
+              name={casino.name}
+              logoSrc={casino.logoSrc}
+              rating={casino.rating}
+              bonus={casino.bonus}
+              freeSpins={casino.freeSpins}
+              deposit={casino.deposit}
+            />
+          ))}
+        </div>
+      </main>
+</BaseLayout>
+
+<style lang="scss">
+  main {
+    padding-bottom: $spacing-xl;
+  }
+
+  .casinos-scroll {
+    display: flex;
+    gap: $spacing-md;
+    overflow-x: auto;
+    padding: 0 $spacing-sm $spacing-md;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .casinos-scroll > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+</style>
+

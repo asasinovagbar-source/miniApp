@@ -1,0 +1,128 @@
+---
+interface Props {
+  activeCategory: 'casino' | 'bets' | 'poker';
+}
+
+const { activeCategory } = Astro.props;
+---
+
+<div class="category-tabs">
+  <div class="tabs-container">
+    <div class="slider" data-active={activeCategory}></div>
+    <button 
+      class={`tab ${activeCategory === 'casino' ? 'active' : ''}`}
+      data-category="casino"
+    >
+      <img src="/icons/casino_icon.svg" alt="Казино" class="icon" />
+      <span>Казино</span>
+    </button>
+    <button 
+      class={`tab ${activeCategory === 'bets' ? 'active' : ''}`}
+      data-category="bets"
+    >
+      <img src="/icons/dollar_icon.svg" alt="Ставки" class="icon" />
+      <span>Ставки</span>
+    </button>
+    <button 
+      class={`tab ${activeCategory === 'poker' ? 'active' : ''}`}
+      data-category="poker"
+    >
+      <img src="/icons/poker_icon.svg" alt="Покер" class="icon" />
+      <span>Покер</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLElement>('.category-tabs .tab');
+  const slider = document.querySelector<HTMLElement>('.category-tabs .slider');
+  const tabsContainer = document.querySelector<HTMLElement>('.category-tabs .tabs-container');
+  
+  function updateSlider(activeTab: HTMLElement) {
+    if (!slider || !tabsContainer) return;
+    
+    const containerRect = tabsContainer.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    
+    const left = tabRect.left - containerRect.left;
+    const width = tabRect.width;
+    
+    slider.style.transform = `translateX(${left}px)`;
+    slider.style.width = `${width}px`;
+    
+    tabs.forEach(tab => tab.classList.remove('active'));
+    activeTab.classList.add('active');
+  }
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      updateSlider(tab);
+      const category = tab.getAttribute('data-category');
+      if (category) {
+        window.dispatchEvent(new CustomEvent('categoryChange', { 
+          detail: { category: category as 'casino' | 'bets' | 'poker' } 
+        }));
+      }
+    });
+  });
+  
+  const activeTab = document.querySelector<HTMLElement>('.category-tabs .tab.active');
+  if (activeTab) {
+    setTimeout(() => updateSlider(activeTab), 0);
+  }
+</script>
+
+<style lang="scss">
+  .category-tabs {
+    margin: 0 $spacing-sm;
+  }
+
+  .tabs-container {
+    position: relative;
+    display: flex;
+    gap: $spacing-sm;
+    background: $bg-dark-2;
+    border-radius: $radius-lg;
+  }
+
+  .slider {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background: $accent-green;
+    border-radius: $radius-lg;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .tab {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md;
+    height: 100%;
+    border-radius: $radius-lg;
+    color: $text-secondary;
+    font-size: 14px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    transition: color 0.3s ease;
+  }
+
+  .tab.active {
+    color: white;
+  }
+
+  .icon {
+    object-fit: contain;
+    width: 25px;
+    height: 25px;
+  }
+</style>
+

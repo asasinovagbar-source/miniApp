@@ -1,0 +1,57 @@
+---
+interface Props {
+  icon?: string;
+  title: string;
+  action?: string;
+  actionLabel?: string;
+}
+
+const { icon, title, action, actionLabel } = Astro.props;
+---
+
+<div class="section-title">
+  <div class="left">
+    {icon && <span class="icon">{icon}</span>}
+    <h2>{title}</h2>
+  </div>
+  {action && (
+    <button class="action-button">
+      {actionLabel || action}
+    </button>
+  )}
+</div>
+
+<style lang="scss">
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md $spacing-sm;
+    margin-top: $spacing-lg;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .action-button {
+    background: $accent-red;
+    color: white;
+    padding: 6px 12px;
+    border-radius: $radius-sm;
+    font-size: 12px;
+    font-weight: 600;
+  }
+</style>
+

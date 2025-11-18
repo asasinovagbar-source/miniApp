@@ -1,0 +1,132 @@
+---
+import PromoBanner from './PromoBanner.astro';
+
+interface Slide {
+  imageSrc: string;
+  title: string;
+  subtitle?: string;
+  buttonText?: string;
+  gradient?: string;
+  label?: string;
+  labelColor?: 'yellow' | 'red' | 'pink';
+}
+
+interface Props {
+  slides: Slide[];
+  sliderId: string;
+}
+
+const { slides, sliderId } = Astro.props;
+---
+
+<div class="splide promo-slider" id={sliderId}>
+  <div class="splide__track">
+    <div class="splide__list">
+      {slides.map((slide) => (
+        <div class="splide__slide">
+          <PromoBanner
+            label={slide.label}
+            labelColor={slide.labelColor}
+            title={slide.title}
+            subtitle={slide.subtitle}
+            buttonText={slide.buttonText}
+            gradient={slide.gradient}
+            imageSrc={slide.imageSrc}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+<script define:vars={{ sliderId }}>
+  (function() {
+    function initPromoSlider(sliderId) {
+    const promoSliderEl = document.getElementById(sliderId);
+    if (!promoSliderEl) return;
+    
+    // Проверяем, что Splide загружен
+    if (typeof window.Splide === 'undefined') {
+      setTimeout(() => initPromoSlider(sliderId), 100);
+      return;
+    }
+    
+    // Проверяем, не инициализирован ли уже слайдер
+    if (promoSliderEl.splideInstance) {
+      promoSliderEl.splideInstance.refresh();
+      return;
+    }
+    
+    const Splide = window.Splide;
+    const slider = new Splide(promoSliderEl, {
+      type: 'slide',
+      perPage: 1,
+      perMove: 1,
+      gap: '1rem',
+      padding: { left: '5%', right: '5%' },
+      pagination: false,
+      arrows: false,
+      drag: 'free',
+      snap: true,
+      focus: 'center',
+      trimSpace: false,
+      fixedWidth: '90%',
+    });
+    
+    // Обработчик для последнего слайда - показываем предыдущий слева
+    slider.on('moved', () => {
+      setTimeout(() => {
+        const index = slider.index;
+        const length = slider.length;
+        
+        if (index === length - 1 && length > 1) {
+          const list = promoSliderEl.querySelector('.splide__list');
+          if (list) {
+            const slides = Array.from(list.children);
+            if (slides.length > 0) {
+              const slideWidth = slides[0].offsetWidth;
+              const gap = 8;
+              const containerWidth = promoSliderEl.getBoundingClientRect().width;
+              const padding = containerWidth * 0.05;
+              const translateX = (length - 1) * (slideWidth + gap) - (containerWidth - slideWidth - padding * 2);
+              list.style.transform = `translateX(-${Math.max(0, translateX)}px)`;
+            }
+          }
+        }
+      }, 50);
+    });
+    
+    slider.mount();
+    promoSliderEl.splideInstance = slider;
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => initPromoSlider(sliderId), 100);
+    });
+    } else {
+      setTimeout(() => initPromoSlider(sliderId), 100);
+    }
+  })();
+</script>
+
+<style lang="scss">
+  .promo-slider {
+    margin: $spacing-md 0;
+  }
+
+  .promo-slider .splide__slide {
+    display: flex;
+    height: 100%;
+  }
+
+  .promo-slider .splide__slide .promo-banner {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    min-height: auto;
+  }
+</style>
+

@@ -1,0 +1,138 @@
+---
+interface Props {
+  rank?: number;
+  name: string;
+  logoSrc?: string;
+  rating?: number;
+  bonus?: string;
+  freeSpins?: string;
+  deposit?: string;
+}
+
+const { rank, name, logoSrc, rating, bonus, freeSpins, deposit } = Astro.props;
+---
+
+<div class="casino-card">
+  {rank && <div class="rank">{rank}</div>}
+  {rating && (
+    <div class="rating">
+      <span class="star">★</span>
+      {rating}
+    </div>
+  )}
+  {logoSrc && <img src={logoSrc} alt={name} class="logo" />}
+  <div class="content">
+    <h3 class="name">{name}</h3>
+    {(bonus || deposit || freeSpins) && (
+      <div class="offers">
+        {bonus && <span class="bonus">{bonus}</span>}
+        {deposit && <span class="deposit">{deposit}</span>}
+        {freeSpins && <span class="free-spins">{freeSpins}</span>}
+      </div>
+    )}
+    <button class="play-button">Играть</button>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "sass:color";
+  
+  .casino-card {
+    background: linear-gradient(135deg, $bg-card 0%, color.scale($bg-card, $lightness: -2%) 100%);
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    position: relative;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .rank {
+    position: absolute;
+    top: 0;
+    left: $spacing-sm;
+    font-size: 32px;
+    font-weight: bold;
+    color: $text-primary;
+    opacity: 0.3;
+  }
+
+  .rating {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  .star {
+    color: $accent-yellow;
+  }
+
+  .logo {
+    height: 60px;
+    object-fit: contain;
+    background: transparent;
+    margin-top: $spacing-lg;
+  }
+
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-top: auto;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .offers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .bonus,
+  .deposit {
+    background: $accent-green;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .free-spins {
+    background: $accent-blue;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .play-button {
+    width: 100%;
+    background: #00a3ff;
+    color: #f1f1f1f1;
+    padding: $spacing-sm;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    margin-top: auto;
+    transition: opacity 0.2s;
+  }
+
+  .play-button:hover {
+    opacity: 0.9;
+  }
+</style>
+

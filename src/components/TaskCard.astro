@@ -1,0 +1,66 @@
+---
+interface Props {
+  title: string;
+  reward: number;
+  completed?: boolean;
+}
+
+const { title, reward, completed = false } = Astro.props;
+---
+
+<div class="task-card">
+  <div class="task-info">
+    <p class="task-title">{title}</p>
+    <span class="reward">+{reward}</span>
+  </div>
+  <button class={`complete-button ${completed ? 'completed' : ''}`}>
+    {completed ? 'Выполнено' : 'Выполнить'}
+  </button>
+</div>
+
+<style>
+  .task-card {
+    background: $bg-card;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    margin: 0 $spacing-sm $spacing-sm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .task-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .task-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .reward {
+    color: $accent-green;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .complete-button {
+    background: white;
+    color: #000;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .complete-button.completed {
+    background: $accent-green;
+    color: white;
+  }
+</style>
+

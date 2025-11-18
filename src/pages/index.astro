@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PromoSlider from '../components/PromoSlider.astro';
+import CasinoCard from '../components/CasinoCard.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { casinos } from '../data/casinos';
+---
+
+<BaseLayout title="ДЕПХАБ - Главная" activeTab="home" activeCategory="casino">
+      <main id="category-content">
+        <!-- Casino Content (default) -->
+        <div class="category-section" data-category="casino">
+          <PromoSlider
+            sliderId="promo-slider-casino"
+            slides={[
+              {
+                imageSrc: '/images/slider_main/1win.avif',
+                title: '1WIN',
+                subtitle: 'Лучшие коэффициенты',
+                buttonText: 'Играть',
+              },
+              {
+                imageSrc: '/images/slider_main/1xbet.avif',
+                title: '1XBET',
+                subtitle: 'Бонус до 200%',
+                buttonText: 'Получить бонус',
+              },
+              {
+                imageSrc: '/images/slider_main/1xbet_2.avif',
+                title: '1XBET Баскетбол',
+                subtitle: 'Ставки на спорт',
+                buttonText: 'Сделать ставку',
+              },
+            ]}
+          />
+
+          <!-- Top Casinos -->
+          <SectionTitle icon="🏆" title="ТОП-10 за всё время" />
+          <div class="casinos-scroll">
+            {casinos.map((casino) => (
+              <CasinoCard
+                rank={casino.rank}
+                name={casino.name}
+                logoSrc={casino.logoSrc}
+                rating={casino.rating}
+                bonus={casino.bonus}
+                freeSpins={casino.freeSpins}
+                deposit={casino.deposit}
+              />
+            ))}
+          </div>
+
+          <!-- Popular -->
+          <SectionTitle icon="🔥" title="Популярное" />
+          <div class="casinos-list">
+            {casinos.map((casino) => (
+              <div class="casino-row">
+                <div class="casino-info">
+                  {casino.logoSrc && <img src={casino.logoSrc} alt={casino.name} class="casino-logo-small" />}
+                  <div>
+                    <h3>{casino.name}</h3>
+                    <div class="casino-meta">
+                      <span class="rating">★ {casino.rating}</span>
+                      {casino.bonus && <span class="bonus-tag">{casino.bonus}</span>}
+                      {casino.freeSpins && <span class="fs-tag">{casino.freeSpins}</span>}
+                    </div>
+                  </div>
+                </div>
+                <button class="play-btn">Играть</button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Bets Content -->
+        <div class="category-section" data-category="bets" style="display: none;">
+          <PromoSlider
+            sliderId="promo-slider-bets-main"
+            slides={[
+              {
+                imageSrc: '/images/slider_main/1xbet_2.avif',
+                title: '1WIN Ставки',
+                subtitle: 'Лучшие коэффициенты',
+                buttonText: 'Сделать ставку',
+                gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
+              },
+              {
+                imageSrc: '/images/slider_main/1xbet.avif',
+                title: '1XBET',
+                subtitle: 'Бонус до 200%',
+                buttonText: 'Получить бонус',
+                gradient: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+              },
+              {
+                imageSrc: '/images/slider_main/1win.avif',
+                title: '1XBET Баскетбол',
+                subtitle: 'Ставки на спорт',
+                buttonText: 'Играть',
+                gradient: 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)',
+              },
+            ]}
+          />
+
+          <SectionTitle icon="🏆" title="Букмекер" />
+          <div class="casinos-scroll">
+            {casinos.map((casino) => (
+              <CasinoCard
+                rank={casino.rank}
+                name={casino.name}
+                logoSrc={casino.logoSrc}
+                rating={casino.rating}
+                bonus={casino.bonus}
+                freeSpins={casino.freeSpins}
+                deposit={casino.deposit}
+              />
+            ))}
+          </div>
+        </div>
+
+        <!-- Poker Content -->
+        <div class="category-section" data-category="poker" style="display: none;">
+          <PromoSlider
+            sliderId="promo-slider"
+            slides={[
+              {
+                imageSrc: '/images/slider_main/1xbet.avif',
+                title: '1WIN Покер',
+                subtitle: 'Турниры каждый день',
+                buttonText: 'Играть',
+                gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
+              },
+              {
+                imageSrc: '/images/slider_main/1win.avif',
+                title: '1XBET Покер',
+                subtitle: 'Бонус до 500%',
+                buttonText: 'Получить бонус',
+                gradient: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
+              },
+              {
+                imageSrc: '/images/slider_main/1xbet_2.avif',
+                title: '1XBET Покер',
+                subtitle: 'Лучшие турниры',
+                buttonText: 'Участвовать',
+                gradient: 'linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%)',
+              },
+            ]}
+          />
+
+          <!-- <SectionTitle icon="🏆" title="ТОП-10 Покерных-комнат" /> -->
+          <div class="casinos-scroll">
+            {casinos.map((casino) => (
+              <CasinoCard
+                rank={casino.rank}
+                name={casino.name}
+                logoSrc={casino.logoSrc}
+                rating={casino.rating}
+                bonus={casino.bonus}
+                freeSpins={casino.freeSpins}
+                deposit={casino.deposit}
+              />
+            ))}
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+          <p>DepHub не является онлайн-казино, букмекерской конторой или организатором азартных игр.</p>
+          <p>DepHub лишь агрегирует и отображает актуальные предложения от сторонних сервисов.</p>
+          <p>DepHub не несет ответственности за действия пользователей на сторонних сайтах.</p>
+          <p>Используя это приложение, вы подтверждаете, что вам исполнилось 18 лет и вы ознакомились с настоящими условиями.</p>
+          <p>DepHub оставляет за собой право изменять правила в любое время без предварительного уведомления.</p>
+          <div class="disclaimer-icons">
+            <span>✋</span>
+            <span>18+</span>
+          </div>
+          <p class="copyright">© 2025 DEPHUB. All rights reserved</p>
+        </div>
+      </main>
+
+      <script>
+        let currentCategory: 'casino' | 'bets' | 'poker' = 'casino';
+        
+        function showCategory(category: 'casino' | 'bets' | 'poker') {
+          if (currentCategory === category) return;
+          
+          const sections = document.querySelectorAll<HTMLElement>('.category-section');
+          const currentSection = Array.from(sections).find(
+            s => s.getAttribute('data-category') === currentCategory
+          ) as HTMLElement;
+          const newSection = Array.from(sections).find(
+            s => s.getAttribute('data-category') === category
+          ) as HTMLElement;
+          
+          if (!currentSection || !newSection) return;
+          
+          currentSection.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+          newSection.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+          
+          currentSection.style.transform = 'translateX(-100%)';
+          currentSection.style.opacity = '0';
+          
+          newSection.style.display = 'block';
+          newSection.style.transform = 'translateX(100%)';
+          newSection.style.opacity = '0';
+          
+          requestAnimationFrame(() => {
+            newSection.style.transform = 'translateX(0)';
+            newSection.style.opacity = '1';
+          });
+          
+          setTimeout(() => {
+            currentSection.style.display = 'none';
+            currentSection.style.transform = '';
+            currentSection.style.opacity = '';
+            currentSection.style.transition = '';
+          }, 300);
+          
+          currentCategory = category;
+        }
+        
+        window.addEventListener('categoryChange', ((e: CustomEvent<{ category: 'casino' | 'bets' | 'poker' }>) => {
+          showCategory(e.detail.category);
+        }) as EventListener);
+        
+        const initialSection = document.querySelector<HTMLElement>('.category-section[data-category="casino"]');
+        if (initialSection) {
+          initialSection.style.display = 'block';
+          initialSection.style.opacity = '1';
+        }
+
+      </script>
+</BaseLayout>
+
+<style lang="scss">
+  main {
+    padding-bottom: $spacing-xl;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .category-section {
+    width: 100%;
+    will-change: transform, opacity;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .casinos-scroll {
+    display: flex;
+    gap: $spacing-md;
+    overflow-x: auto;
+    padding: 0 $spacing-sm $spacing-md;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .casinos-scroll > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  .casinos-list {
+    padding: 0 $spacing-sm;
+  }
+
+  .casino-row {
+    background: $bg-card;
+    border-radius: $radius-md;
+    padding: 0 $spacing-sm;
+    margin-bottom: $spacing-sm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .casino-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex: 1;
+  }
+
+  .casino-logo-small {
+    width: 70px;
+    height: 70px;
+    border-radius: $radius-sm;
+    object-fit: contain;
+    background: transparent;
+    flex-shrink: 0;
+  }
+
+  .casino-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .casino-meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    flex-wrap: wrap;
+  }
+
+  .rating {
+    color: $accent-yellow;
+    font-size: 13px;
+  }
+
+  .bonus-tag {
+    background: $accent-green;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .fs-tag {
+    background: $accent-blue;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .play-btn {
+    background: $accent-green;
+    color: white;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .disclaimer {
+    padding: $spacing-lg $spacing-sm;
+    font-size: 11px;
+    color: $text-secondary;
+    line-height: 1.6;
+  }
+
+  .disclaimer p {
+    margin-bottom: $spacing-xs;
+  }
+
+  .disclaimer-icons {
+    display: flex;
+    gap: $spacing-sm;
+    margin: $spacing-md 0;
+  }
+
+  .disclaimer-icons span {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .copyright {
+    margin-top: $spacing-md;
+    text-align: center;
+    font-size: 10px;
+  }
+</style>
+

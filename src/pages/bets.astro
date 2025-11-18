@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PromoSlider from '../components/PromoSlider.astro';
+import CasinoCard from '../components/CasinoCard.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { casinos } from '../data/casinos';
+---
+
+<BaseLayout title="Ставки - ДЕПХАБ" activeTab="home" activeCategory="bets">
+      <main>
+        <PromoSlider
+          sliderId="promo-slider-bets"
+          slides={[
+            {
+              imageSrc: '/images/slider_main/1xbet.png',
+              title: 'Ставки на спорт',
+              subtitle: 'Лучшие коэффициенты',
+              buttonText: 'Сделать ставку'
+            },
+            {
+              imageSrc: '/images/slider_main/1xbet_2.png',
+              title: '1XBET',
+              subtitle: 'Бонус до 200%',
+              buttonText: 'Получить бонус',
+              gradient: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            },
+            {
+              imageSrc: '/images/slider_main/1win.png',
+              title: '1XBET Баскетбол',
+              subtitle: 'Ставки на спорт',
+              buttonText: 'Играть',
+            },
+          ]}
+        />
+
+        <!-- Bookmaker Section -->
+        <SectionTitle icon="🏆" title="Букмекер" />
+        <div class="casinos-scroll">
+          {casinos.map((casino) => (
+            <CasinoCard
+              rank={casino.rank}
+              name={casino.name}
+              logoSrc={casino.logoSrc}
+              rating={casino.rating}
+              bonus={casino.bonus}
+              freeSpins={casino.freeSpins}
+              deposit={casino.deposit}
+            />
+          ))}
+        </div>
+      </main>
+</BaseLayout>
+
+<style lang="scss">
+  main {
+    padding-bottom: $spacing-xl;
+  }
+
+  .casinos-scroll {
+    display: flex;
+    gap: $spacing-md;
+    overflow-x: auto;
+    padding: 0 $spacing-sm $spacing-md;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .casinos-scroll > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+</style>
+
